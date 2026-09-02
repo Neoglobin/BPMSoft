@@ -1,0 +1,19 @@
+<Project>
+	<ItemGroup Condition="'$(PkgPath)' != ''">
+		<Compile Remove="$(PkgPath)/OpenIdAuth/Assemblies/**" />
+		<Compile Remove="$(PkgPath)/OpenIdAuth/Data/**" />
+		<Compile Remove="$(PkgPath)/OpenIdAuth/SqlScripts/**" />
+		<Compile Remove="$(PkgPath)/OpenIdAuth/Schemas\**" />
+		<Compile Remove="$(PkgPath)/OpenIdAuth/Resources/**" />
+		<EmbeddedResource Remove="$(PkgPath)/OpenIdAuth/Assemblies/**" />
+		<EmbeddedResource Remove="$(PkgPath)/OpenIdAuth/Data/**" />
+		<EmbeddedResource Remove="$(PkgPath)/OpenIdAuth/SqlScripts/**" />
+		<EmbeddedResource Remove="$(PkgPath)/OpenIdAuth/Schemas/**" />
+		<EmbeddedResource Remove="$(PkgPath)/OpenIdAuth/Resources/**" />
+		<None Remove="$(PkgPath)/OpenIdAuth/Assemblies/**" />
+		<None Remove="$(PkgPath)/OpenIdAuth/Data/**" />
+		<None Remove="$(PkgPath)/OpenIdAuth/SqlScripts/**" />
+		<None Remove="$(PkgPath)/OpenIdAuth/Schemas/**" />
+		<None Remove="$(PkgPath)/OpenIdAuth/Resources/**" />
+  </ItemGroup>
+</Project>

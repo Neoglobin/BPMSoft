@@ -1,0 +1,16 @@
+﻿{
+  "Descriptor": {
+    "UId": "0b64eec6-85c1-0c50-71e0-f7e411af1b5b",
+    "Name": "GlobalLoadingBar",
+    "BPMSoftVersion": "1.9.1",
+    "ModifiedOnUtc": "\/Date(1788368891000)\/",
+    "Maintainer": "Tmk",
+    "DependsOn": [
+      {
+        "UId": "a7d9c356-450c-46d7-bc85-72dca4e280ba",
+        "PackageVersion": "1.0.0",
+        "Name": "NUI"
+      }
+    ]
+  }
+}

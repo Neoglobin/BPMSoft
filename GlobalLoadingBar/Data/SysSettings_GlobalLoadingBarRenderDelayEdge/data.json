@@ -4,11 +4,11 @@
       "Row": [
         {
           "SchemaColumnUId": "ae0e45ca-c495-4fe7-a39d-3ab7278e1617",
-          "Value": "9a41173b-6641-454f-b836-199787b5524d"
+          "Value": "9f2adade-a266-4a0f-ac85-3e3e5a75c582"
         },
         {
           "SchemaColumnUId": "13aad544-ec30-4e76-a373-f0cff3202e24",
-          "Value": "GlobalLoadingBarActive"
+          "Value": "GlobalLoadingBarRenderDelayEdge"
         },
         {
           "SchemaColumnUId": "64fadca1-ab7c-4471-9d25-68599acc729b",
@@ -20,7 +20,7 @@
         },
         {
           "SchemaColumnUId": "9928edec-4272-425a-93bb-48743fee4b04",
-          "Value": "\/Date(1788898431190-0700)\/"
+          "Value": "\/Date(1788898435184-0700)\/"
         },
         {
           "SchemaColumnUId": "b2280617-35f9-4006-8634-c557a2e121c2",
@@ -32,7 +32,7 @@
         },
         {
           "SchemaColumnUId": "f7960a8a-1fd4-41d2-997a-fd78ea60075f",
-          "Value": "Boolean"
+          "Value": "Integer"
         }
       ]
     }

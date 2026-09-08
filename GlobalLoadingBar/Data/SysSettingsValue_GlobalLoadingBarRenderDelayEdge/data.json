@@ -4,12 +4,12 @@
       "Row": [
         {
           "SchemaColumnUId": "ae0e45ca-c495-4fe7-a39d-3ab7278e1617",
-          "Value": "3a22c866-1521-4eeb-8049-160cc2a9c597"
+          "Value": "435a1b98-687b-47a8-adef-97f169fcc9bb"
         },
         {
           "SchemaColumnUId": "0fde6f1e-22c5-48c7-9c89-6f0031e270de",
-          "Value": "9a41173b-6641-454f-b836-199787b5524d",
-          "DisplayValue": "Состояние активности глобальной полоски загрузки модулей"
+          "Value": "9f2adade-a266-4a0f-ac85-3e3e5a75c582",
+          "DisplayValue": "Пороговое значение задержки инициализации модуля до показа полосы загрузки"
         },
         {
           "SchemaColumnUId": "23c7dde8-7cf5-4f18-9d76-0fa4179ee931",
@@ -17,7 +17,7 @@
         },
         {
           "SchemaColumnUId": "297f4697-d071-4be2-8509-9090c07dfe18",
-          "Value": true
+          "Value": false
         },
         {
           "SchemaColumnUId": "34f73492-296e-4a73-95f7-e7de5a3b3509",
@@ -34,7 +34,7 @@
         },
         {
           "SchemaColumnUId": "9928edec-4272-425a-93bb-48743fee4b04",
-          "Value": "\/Date(1788898431273-0700)\/"
+          "Value": "\/Date(1788898435255-0700)\/"
         },
         {
           "SchemaColumnUId": "af6013ce-7387-4619-b4f4-30c4276fcfac",
@@ -46,7 +46,7 @@
         },
         {
           "SchemaColumnUId": "b36bfa07-34c7-45b1-a2ee-39e653034ba0",
-          "Value": 0
+          "Value": 100
         },
         {
           "SchemaColumnUId": "f1bc0b27-2c46-4cae-ad23-3b8940587d4f",

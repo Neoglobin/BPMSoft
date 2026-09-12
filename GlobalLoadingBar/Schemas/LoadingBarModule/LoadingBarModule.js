@@ -1,9 +1,11 @@
   define("LoadingBarModule", ["css!LoadingBarModule"], function() {
 	Ext.define("BPMSoft.configuration.LoadingBarModule", {
-
 		alternateClassName: "BPMSoft.LoadingBarModule",
 		singleton: true,
+
 		bar: null,
+		isRendered: false,
+		isLoaded: false,
 
 		init: function () {
 			if (this.bar) {
@@ -14,6 +16,7 @@
 				tag: "div",
 				cls: "global-loading-bar"
 			});
+			this.isLoaded = true;
 		},
 
 		show: function () {
@@ -21,6 +24,7 @@
 
 			this.bar.show();
 			this.bar.addCls("global-loading-bar--active");
+			this.isRendered = true;
 		},
 
 		hide: function () {
@@ -34,6 +38,7 @@
 			Ext.defer(function () {
 				if (this.bar && !this.bar.hasCls("global-loading-bar--active")) {
 					this.bar.hide();
+					this.isRendered = false;
 				}
 			}, 200, this);
 		}

@@ -1,10 +1,9 @@
-define("BaseSchemaModuleOverride", ["LoadingBarModule"], function() {
+define("BaseSchemaModuleOverride", [], function() {
 	Ext.define("BPMSoft.configuration.BaseSchemaModuleOverride", {
 		override: "BPMSoft.configuration.BaseSchemaModule",
 		alternateClassName: "BPMSoft.BaseSchemaModuleOverride",
 
 		isLoadingBarActive: false,
-		isLoadingBarRendered: false,
 		isModuleInitialized: false,
 		intervalId: null,
 		delay: 0,
@@ -28,10 +27,9 @@ define("BaseSchemaModuleOverride", ["LoadingBarModule"], function() {
 
 			if (this.isLoadingBarActive) 
 			{
-				if (this.isLoadingBarRendered) 
+				if (BPMSoft.LoadingBarModule.isRendered) 
 				{
 					BPMSoft.LoadingBarModule.hide();
-					this.isLoadingBarRendered = false;
 				}
 			}
 		},
@@ -41,9 +39,27 @@ define("BaseSchemaModuleOverride", ["LoadingBarModule"], function() {
 			BPMSoft.SysSettings.querySysSettingsItem("GlobalLoadingBarActive", (isActive) => 
 			{
 				if (!isActive) return; 
-	
 				this.isLoadingBarActive = true;
-				BPMSoft.LoadingBarModule.init();
+
+				if (!Ext.ClassManager.get("BPMSoft.LoadingBarModule")) 
+				{
+					BPMSoft.require(["LoadingBarModule"], function(loadingBar) {
+						if (loadingBar && !loadingBar.isLoaded) 
+						{
+							BPMSoft.LoadingBarModule.init();
+						}
+					}, this); 
+				} 
+
+				if (!Ext.ClassManager.get("BPMSoft.SelectXHRInterceptor")) 
+				{
+					BPMSoft.require(["SelectXHRInterceptor"], function(interceptor) {
+						if (interceptor && !interceptor.isLoaded) 
+						{
+							BPMSoft.SelectXHRInterceptor.init();
+						}
+					}, this);
+				}
 	
 				if (!this.intervalId && !this.isModuleInitialized) 
 				{
@@ -66,16 +82,14 @@ define("BaseSchemaModuleOverride", ["LoadingBarModule"], function() {
 									if (this.delay >= this.loadingBarDestroyDelayEdge) 
 									{
 										BPMSoft.LoadingBarModule.hide();
-										this.isLoadingBarRendered = false;
 									}
 		
 									return;
 								}
 				
-								if (!this.isLoadingBarRendered && this.delay >= this.loadingBarRenderDelayEdge) 
+								if (!BPMSoft.LoadingBarModule.isRendered && this.delay >= this.loadingBarRenderDelayEdge) 
 								{
 									BPMSoft.LoadingBarModule.show();
-									this.isLoadingBarRendered = true;
 								}
 								
 								this.delay += 100; 

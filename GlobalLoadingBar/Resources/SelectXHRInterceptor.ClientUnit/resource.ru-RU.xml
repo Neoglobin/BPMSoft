@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Resources Culture="ru-RU">
+	<Group Type="String">
+		<Items>
+			<Item Name="Caption" Value="Перехватчик клиентских Select запросов" />
+			<Item Name="Description" Value="Необходим для контроля полосой загрузки завершенности Select запросов" />
+		</Items>
+	</Group>
+</Resources>

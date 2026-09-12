@@ -2,7 +2,7 @@
   "Descriptor": {
     "UId": "ec153ee7-4f0f-4857-a3e4-50fbb0a9d8e1",
     "Name": "BaseSchemaModuleOverride",
-    "ModifiedOnUtc": "\/Date(1789230029243)\/",
+    "ModifiedOnUtc": "\/Date(1789238477140)\/",
     "ManagerName": "ClientUnitSchemaManager",
     "Caption": "Расширение базового модуля (BaseSchemaModule)"
   }

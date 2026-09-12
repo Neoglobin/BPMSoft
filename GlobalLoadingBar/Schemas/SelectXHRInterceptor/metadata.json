@@ -1,0 +1,24 @@
+﻿{
+  "MetaData": {
+    "Schema": {
+      "ManagerName": "ClientUnitSchemaManager",
+      "UId": "01d0e95d-51a3-4b9f-ab0f-ee8aa11130fd",
+      "A2": "SelectXHRInterceptor",
+      "A5": "30b83c63-97d7-4cb1-b46d-2091c46e021d",
+      "B1": [],
+      "B2": [],
+      "B3": [],
+      "B6": "0b64eec6-85c1-0c50-71e0-f7e411af1b5b",
+      "B8": "1.9.1.2",
+      "HD1": "50e3acc0-26fc-4237-a095-849a1d534bd3",
+      "HD4": 1,
+      "HD6": "null",
+      "HD5": [],
+      "HD7": [],
+      "HD8": [],
+      "HD11": [],
+      "HD20": [],
+      "HD21": []
+    }
+  }
+}

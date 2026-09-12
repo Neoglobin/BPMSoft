@@ -14,63 +14,14 @@ define("BaseSchemaModuleOverride", ["LoadingBarModule"], function() {
 
 		init: function(callback, scope) 
 		{
-			BPMSoft.SysSettings.querySysSettingsItem("GlobalLoadingBarActive", (isActive) => {
-				if (isActive) 
-				{
-					this.isLoadingBarActive = true;
-					BPMSoft.LoadingBarModule.init();
-				}
-			}, this);
-
 			this.callParent([function() {
 				this.isModuleInitialized = true;
 				callback.call(scope || this);
 			}, this]);
 
-			if (this.isLoadingBarActive) 
-			{
-				if (!this.intervalId && !this.isModuleInitialized) 
-				{
-					BPMSoft.SysSettings.querySysSettingsItem("GlobalLoadingBarRenderDelayEdge", (edgeValue) => {
-						if (edgeValue) 
-						{
-							this.loadingBarRenderDelayEdge = edgeValue;
-						}
-					}, this);
-					BPMSoft.SysSettings.querySysSettingsItem("GlobalLoadingBarDestroyDelayEdge", (edgeValue) => {
-						if (edgeValue) 
-						{
-							this.loadingBarDestroyDelayEdge = edgeValue;
-						}
-					}, this);
-	
-					this.intervalId = setInterval(() => {
-	
-						if (this.isModuleInitialized || this.delay >= this.loadingBarDestroyDelayEdge) 
-						{
-							clearInterval(this.intervalId);
-
-							if (this.delay >= this.loadingBarDestroyDelayEdge) 
-							{
-								BPMSoft.LoadingBarModule.hide();
-								this.isLoadingBarRendered = false;
-							}
-
-							return;
-						}
-		
-						if (!this.isLoadingBarRendered && this.delay >= this.loadingBarRenderDelayEdge) 
-						{
-							BPMSoft.LoadingBarModule.show();
-							this.isLoadingBarRendered = true;
-						}
-						
-						this.delay += 100; 
-					}, 100);
-				}
-			}
+			this.processGlobalLoadingBar();
 		},
-
+		
 		render: function() 
 		{			
 			this.callParent(arguments);
@@ -85,18 +36,57 @@ define("BaseSchemaModuleOverride", ["LoadingBarModule"], function() {
 			}
 		},
 
-		destroy: function() 
+		processGlobalLoadingBar: function() 
 		{
-			this.isLoadingBarActive = false;
-			this.isLoadingBarRendered = false;
-			this.isModuleInitialized = false;
-			this.intervalId = null;
-			this.delay = 0;
-			this.loadingBarRenderDelayEdge = 0;
-			this.loadingBarDestroyDelayEdge = 0;
+			BPMSoft.SysSettings.querySysSettingsItem("GlobalLoadingBarActive", (isActive) => 
+			{
+				if (!isActive) return; 
+	
+				this.isLoadingBarActive = true;
+				BPMSoft.LoadingBarModule.init();
+	
+				if (!this.intervalId && !this.isModuleInitialized) 
+				{
+					BPMSoft.SysSettings.querySysSettingsItem("GlobalLoadingBarRenderDelayEdge", (edgeValue) => 
+					{
+	
+						this.loadingBarRenderDelayEdge = edgeValue ?? 0;
+						
+						BPMSoft.SysSettings.querySysSettingsItem("GlobalLoadingBarDestroyDelayEdge", (edgeValue) => 
+						{
+	
+							this.loadingBarDestroyDelayEdge = edgeValue ?? 15000;
+						
+							this.intervalId = setInterval(() => {
+			
+								if (this.isModuleInitialized || this.delay >= this.loadingBarDestroyDelayEdge) 
+								{
+									clearInterval(this.intervalId);
+		
+									if (this.delay >= this.loadingBarDestroyDelayEdge) 
+									{
+										BPMSoft.LoadingBarModule.hide();
+										this.isLoadingBarRendered = false;
+									}
+		
+									return;
+								}
+				
+								if (!this.isLoadingBarRendered && this.delay >= this.loadingBarRenderDelayEdge) 
+								{
+									BPMSoft.LoadingBarModule.show();
+									this.isLoadingBarRendered = true;
+								}
+								
+								this.delay += 100; 
+							}, 100);
+	
+						}, this);
+					}, this);
+				}
+			}, this);
+		},
 
-			this.callParent(arguments);
-		}
 	});
 	return BPMSoft.BaseSchemaModuleOverride;
 });

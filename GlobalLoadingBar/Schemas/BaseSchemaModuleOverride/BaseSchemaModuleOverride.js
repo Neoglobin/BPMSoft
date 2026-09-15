@@ -1,37 +1,26 @@
-define("BaseSchemaModuleOverride", [], function() {
+define("BaseSchemaModuleOverride", ["LoadingBarModule", "sandbox"], function() {
 	Ext.define("BPMSoft.configuration.BaseSchemaModuleOverride", {
 		override: "BPMSoft.configuration.BaseSchemaModule",
 		alternateClassName: "BPMSoft.BaseSchemaModuleOverride",
+		sandbox: null,
+		singleton: true,
 
 		isLoadingBarActive: false,
 		isModuleInitialized: false,
 		intervalId: null,
-		delay: 0,
-		loadingBarRenderDelayEdge: 0,
-		loadingBarDestroyDelayEdge: 0,
-		
+		startTime: null,
 
 		init: function(callback, scope) 
 		{
 			this.callParent([function() {
 				this.isModuleInitialized = true;
+				this.registerPendingRequestsMessage();
+				this.sandbox.subscribe("OnPendingRequestsMessage", this.setLoadingInterval, this);
+
 				callback.call(scope || this);
 			}, this]);
 
 			this.processGlobalLoadingBar();
-		},
-		
-		render: function() 
-		{			
-			this.callParent(arguments);
-
-			if (this.isLoadingBarActive) 
-			{
-				if (BPMSoft.LoadingBarModule.isRendered) 
-				{
-					BPMSoft.LoadingBarModule.hide();
-				}
-			}
 		},
 
 		processGlobalLoadingBar: function() 
@@ -41,66 +30,68 @@ define("BaseSchemaModuleOverride", [], function() {
 				if (!isActive) return; 
 				this.isLoadingBarActive = true;
 
-				if (!Ext.ClassManager.get("BPMSoft.LoadingBarModule")) 
-				{
-					BPMSoft.require(["LoadingBarModule"], function(loadingBar) {
-						if (loadingBar && !loadingBar.isLoaded) 
-						{
-							BPMSoft.LoadingBarModule.init();
-						}
-					}, this); 
-				} 
-
 				if (!Ext.ClassManager.get("BPMSoft.SelectXHRInterceptor")) 
 				{
 					BPMSoft.require(["SelectXHRInterceptor"], function(interceptor) {
-						if (interceptor && !interceptor.isLoaded) 
+						if (interceptor && !interceptor?.isLoaded) 
 						{
 							BPMSoft.SelectXHRInterceptor.init();
+							BPMSoft.SelectXHRInterceptor.start();
 						}
 					}, this);
 				}
 	
-				if (!this.intervalId && !this.isModuleInitialized) 
-				{
-					BPMSoft.SysSettings.querySysSettingsItem("GlobalLoadingBarRenderDelayEdge", (edgeValue) => 
+				BPMSoft.LoadingBarModule.load(function(response) {
+					if (!this.isModuleInitialized) 
 					{
-	
-						this.loadingBarRenderDelayEdge = edgeValue ?? 0;
-						
-						BPMSoft.SysSettings.querySysSettingsItem("GlobalLoadingBarDestroyDelayEdge", (edgeValue) => 
-						{
-	
-							this.loadingBarDestroyDelayEdge = edgeValue ?? 15000;
-						
-							this.intervalId = setInterval(() => {
-			
-								if (this.isModuleInitialized || this.delay >= this.loadingBarDestroyDelayEdge) 
-								{
-									clearInterval(this.intervalId);
-		
-									if (this.delay >= this.loadingBarDestroyDelayEdge) 
-									{
-										BPMSoft.LoadingBarModule.hide();
-									}
-		
-									return;
-								}
-				
-								if (!BPMSoft.LoadingBarModule.isRendered && this.delay >= this.loadingBarRenderDelayEdge) 
-								{
-									BPMSoft.LoadingBarModule.show();
-								}
-								
-								this.delay += 100; 
-							}, 100);
-	
-						}, this);
-					}, this);
-				}
+						this.setLoadingInterval();
+					}
+				}, this);
+
 			}, this);
 		},
+		
+		setLoadingInterval: function()  
+		{
+			if (this.intervalId) return;
 
+			this.startTime = Date.now();
+			this.intervalId = setInterval(() => {
+
+				const currentTime = Date.now();
+				const delay = currentTime - this.startTime;
+
+				if ((this.isModuleInitialized && BPMSoft.SelectXHRInterceptor.pendingRequests == 0) 
+					|| delay >= BPMSoft.LoadingBarModule.loadingBarDestroyDelayEdge) 
+				{
+					clearInterval(this.intervalId);
+					this.intervalId = null;
+					this.startTime = null;		
+
+					BPMSoft.LoadingBarModule.hide();
+					return;
+				}	
+	
+				if (!BPMSoft.LoadingBarModule.isRendered 
+					&& delay >= BPMSoft.LoadingBarModule.loadingBarRenderDelayEdge) 
+				{
+					BPMSoft.LoadingBarModule.show();
+				}
+					
+			}, 200);
+		},
+
+		registerPendingRequestsMessage: function() 
+		{
+			const messageConfig = {};
+
+			messageConfig["OnPendingRequestsMessage"] = {
+				mode: BPMSoft.MessageMode.PTP,
+				direction: BPMSoft.MessageDirectionType.SUBSCRIBE
+			};
+
+			this.sandbox.registerMessages(messageConfig);
+		}
 	});
 	return BPMSoft.BaseSchemaModuleOverride;
 });

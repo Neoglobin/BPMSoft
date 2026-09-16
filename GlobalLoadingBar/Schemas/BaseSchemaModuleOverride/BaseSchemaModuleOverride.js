@@ -25,30 +25,30 @@ define("BaseSchemaModuleOverride", ["LoadingBarModule", "sandbox"], function() {
 
 		processGlobalLoadingBar: function() 
 		{
-			BPMSoft.SysSettings.querySysSettingsItem("GlobalLoadingBarActive", (isActive) => 
+			if (!this.isLoadingBarActive) 
 			{
-				if (!isActive) return; 
-				this.isLoadingBarActive = true;
-
-				if (!Ext.ClassManager.get("BPMSoft.SelectXHRInterceptor")) 
+				if (BPMSoft.Features.getIsEnabled("GlobalLoadingBar")) 
 				{
-					BPMSoft.require(["SelectXHRInterceptor"], function(interceptor) {
-						if (interceptor && !interceptor?.isLoaded) 
+					this.isLoadingBarActive = true;
+					if (!Ext.ClassManager.get("BPMSoft.SelectXHRInterceptor")) 
+					{
+						BPMSoft.require(["SelectXHRInterceptor"], function(interceptor) {
+							if (interceptor && !interceptor?.isLoaded) 
+							{
+								BPMSoft.SelectXHRInterceptor.init();
+								BPMSoft.SelectXHRInterceptor.start();
+							}
+						}, this);
+					}
+
+					BPMSoft.LoadingBarModule.load(function(response) {
+						if (!this.isModuleInitialized) 
 						{
-							BPMSoft.SelectXHRInterceptor.init();
-							BPMSoft.SelectXHRInterceptor.start();
+							this.setLoadingInterval();
 						}
 					}, this);
 				}
-	
-				BPMSoft.LoadingBarModule.load(function(response) {
-					if (!this.isModuleInitialized) 
-					{
-						this.setLoadingInterval();
-					}
-				}, this);
-
-			}, this);
+			}
 		},
 		
 		setLoadingInterval: function()  

@@ -2,7 +2,7 @@
   "Descriptor": {
     "UId": "01d0e95d-51a3-4b9f-ab0f-ee8aa11130fd",
     "Name": "SelectXHRInterceptor",
-    "ModifiedOnUtc": "\/Date(1789459628023)\/",
+    "ModifiedOnUtc": "\/Date(1789537654478)\/",
     "ManagerName": "ClientUnitSchemaManager",
     "Caption": "Перехватчик клиентских Select запросов"
   }

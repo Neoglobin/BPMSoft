@@ -10,6 +10,10 @@ define("BaseSchemaModuleOverride", ["LoadingBarModule", "sandbox"], function() {
 		intervalId: null,
 		startTime: null,
 
+		/**
+		 * @override
+		 * @inheritdoc BaseSchemaModule#init 
+		 */
 		init: function(callback, scope) 
 		{
 			this.callParent([function() {

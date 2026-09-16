@@ -10,6 +10,9 @@
 		prototypeSend: null,
 		pendingRequests: 0,
 
+		/**
+		 * Initialize module
+		 */
 		init: function() 
 		{
 			this.isLoaded = true;
@@ -19,6 +22,10 @@
 			}, this);
 		},
 
+		/**
+		 * Start listening and intercept client xhr with "SelectQuery" type
+		 * Extends base XMLHttpRequest class 
+		 */
 		start: function() 
 		{
 			if (this.isStarted) return;
@@ -52,9 +59,12 @@
 					return interceptor.prototypeSend.apply(this, arguments);
 				}
 			}
-			catch (ex) {}
+			catch (ex) {} // Do nothing to avoid extra console messages
 		},
 
+		/**
+		 * Stop listening xhr process
+		 */
 		stop: function() 
 		{
 			XMLHttpRequest.prototype.open = this.prototypeOpen;
